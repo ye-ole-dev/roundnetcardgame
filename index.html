@@ -1,17 +1,70 @@
 <html>
-  <head>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      let socket = io();
-      let el;
 
-      socket.on('time', (timeString) => {
-        el = document.getElementById('server-time');
-        el.innerHTML = 'Server time: ' + timeString;
-      });
-    </script>
-  </head>
-  <body>
-    <p id="server-time"></p>
-  </body>
+<head>
+  <script src="/socket.io/socket.io.js"></script>
+  <!--<script src="https://code.jquery.com/jquery-1.11.1.js"></script>-->
+  <script>
+
+
+    let socket = io();
+    let el;
+
+    socket.on('time', (timeString) => {
+      el = document.getElementById('server-time');
+      el.innerHTML = 'Server time: ' + timeString;
+    });
+
+    let messages;
+    socket.on('chat message', function (msg) {
+      messages = document.getElementById('messages');
+      var li = document.createElement("li");
+      li.appendChild(document.createTextNode(msg));
+      messages.appendChild(li);
+    });
+
+    let form;
+    let message;
+
+    window.onload = function () {
+      // socket.on('time2', (timeString) => {
+      form = document.getElementById('form');
+
+      if (form.attachEvent) {
+        form.attachEvent("submit", processForm);
+      } else {
+        form.addEventListener("submit", processForm);
+      }
+
+    }
+
+    function processForm(e) {
+      e.preventDefault();
+      message = document.getElementById('message');
+      console.log(message.value);
+      socket.emit('chat message', message.value);
+      message.value = '';
+      return false;
+    }
+
+    // });
+
+
+
+  </script>
+
+  <style>
+
+  </style>
+
+  <title>Roundnet Card Game</title>
+</head>
+
+<body>
+  <p id="server-time"></p>
+  <ul id="messages"></ul>
+  <form action="" id="form">
+    <input id="message" autocomplete="off" /><button>Send</button>
+  </form>
+</body>
+
 </html>
