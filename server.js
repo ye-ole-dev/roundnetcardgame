@@ -1,11 +1,23 @@
 'use strict';
 
 const express = require('express');
+const path = require('path');
 const socketIO = require('socket.io');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4321;
 const INDEX = '/index.html';
 
+const server = express();
+server.use(express.static(__dirname + '/dist/roundnetcardgame'));
+
+server.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'dist', 'roundnetcardgame', 'index.html'));
+});
+
+server.listen(PORT);
+console.log("LISTINING")
+
+/*
 const server = express()
   .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
@@ -25,3 +37,4 @@ io.on('connection', (socket) => {
 setInterval(() => io.emit('time2', 'TEST'), 1000);
 
 setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
+*/
