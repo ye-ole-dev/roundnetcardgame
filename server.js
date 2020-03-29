@@ -1,21 +1,45 @@
 'use strict';
 
 const express = require('express');
+const app = express();
+
 const path = require('path');
+const http = require('http');
+const server = http.Server(app);
+
 const socketIO = require('socket.io');
+const io = socketIO(server);
 
-const PORT = process.env.PORT || 4321;
-const INDEX = '/index.html';
+const PORT = process.env.PORT || 3000;
 
-const server = express();
-server.use(express.static(__dirname + '/dist/roundnetcardgame'));
+//const INDEX = '/index.html';
 
-server.get('/*', function (req, res) {
+io.on('connection', (socket) => {
+  console.log('user connected');
+
+  socket.on('new-message', (message) => {
+    console.log(message);
+    socket.emit('new-message', message);
+  });
+});
+
+setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
+
+app.use(express.static(__dirname + '/dist/roundnetcardgame'));
+
+app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'dist', 'roundnetcardgame', 'index.html'));
 });
 
-server.listen(PORT);
-console.log("LISTINING")
+
+
+console.log("LISTINING");
+
+
+
+server.listen(PORT, () => {
+  console.log(`started on port: ${PORT}`);
+});
 
 /*
 const server = express()
