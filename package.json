@@ -10,6 +10,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "engines": {
+    "node": "12.x"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~9.0.2",
@@ -20,6 +23,7 @@
     "@angular/platform-browser": "~9.0.2",
     "@angular/platform-browser-dynamic": "~9.0.2",
     "@angular/router": "~9.0.2",
+    "@angular-devkit/build-angular": "~0.900.3",
     "nodemon": "^2.0.2",
     "rxjs": "~6.5.4",
     "socket.io": "^2.3.0",
@@ -27,7 +31,6 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.900.3",
     "@angular/cli": "~9.0.3",
     "@angular/compiler-cli": "~9.0.2",
     "@angular/language-service": "~9.0.2",
