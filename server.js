@@ -1,38 +1,19 @@
 'use strict';
 
+const gameInfo = require('./game/cards.js');
+
 const express = require('express');
 const app = express();
 
 const path = require('path');
 const http = require('http');
 
-const server = http.Server(app); // MAY OR MAY NOT BE NECCESSARY
+const server = http.Server(app);
 
 const socketIO = require('socket.io');
 const io = socketIO(server);
 
 const PORT = process.env.PORT || 3456;
-
-// Game Stuff
-const cutserve = {
-  title: 'Cut Serve',
-  type: 'serve',
-  descr: 'A serve which alters direction when hitting the net.',
-  atk: 10,
-  def: 0
-};
-const recieve = {
-  title: 'Recieve',
-  type: 'recieve',
-  descr: 'Recieving a serve.',
-  atk: 2,
-  def: 7
-};
-const gameInfo = {
-  name: 'Test',
-  cards: [cutserve, cutserve, recieve]
-};
-
 
 io.on('connection', (socket) => {
   console.log('user connected');
@@ -54,6 +35,10 @@ io.on('connection', (socket) => {
     console.log(data.user);
 
     io.emit('play-card', data);
+  });
+
+  socket.on('disconnect', function () {
+    console.log('user disconnected');
   });
 });
 

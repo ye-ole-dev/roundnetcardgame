@@ -1,6 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { GameService } from '../game.service';
 
+export interface RCGCard {
+  title: string;
+  descr: string;
+  type: string; // TODO: make enum
+  action: boolean;
+  atk: number;
+  def: number;
+}
+
 @Component({
   selector: 'app-rcg-card',
   templateUrl: './rcg-card.component.html',
@@ -12,29 +21,16 @@ export class RcgCardComponent implements OnInit {
     private gameService: GameService
   ) { }
 
-  title: string;
-  descr: string;
-  type: string; // TODO: make enum
-  atk: number;
-  def: number;
+
 
   @Input()
-  card: any;
+  card: RCGCard;
 
   ngOnInit(): void {
-    this.title = 'Cut Serve';
-    this.descr = 'A serve which alters direction on hitting the net.'
 
-    if (this.card) {
-      this.title = this.card.title;
-      this.descr = this.card.descr;
-      this.type = this.card.type;
-      this.atk = this.card.atk;
-      this.def = this.card.def;
-    }
   }
 
-  play(card: any) {
+  play(card: RCGCard) {
     console.log('Played: ' + card.title);
 
     this.gameService.playCard(card, 'Dummy');

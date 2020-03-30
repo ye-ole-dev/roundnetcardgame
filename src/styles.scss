@@ -9,17 +9,34 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
+// GOOD READ:
+// https://blog.thoughtram.io/angular/2017/05/23/custom-themes-with-angular-material.html
+
+// 
+/*
+@function mat-light-theme($primary, $accent, $warn: mat-palette($mat-red)) {
+    @return (
+      primary: $primary,
+      accent: $accent,
+      warn: $warn,
+      is-dark: false,
+      foreground: black,
+      background: yellow,
+    );
+  } */
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$roundnetcardgame-primary: mat-palette($mat-indigo);
-$roundnetcardgame-accent: mat-palette($mat-pink, A200, A100, A400);
+$roundnetcardgame-primary: mat-palette($mat-teal, 700, 300);
+$roundnetcardgame-accent: mat-palette($mat-orange, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $roundnetcardgame-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$roundnetcardgame-theme: mat-light-theme($roundnetcardgame-primary, $roundnetcardgame-accent, $roundnetcardgame-warn);
+$roundnetcardgame-theme: mat-dark-theme($roundnetcardgame-primary, $roundnetcardgame-accent, $roundnetcardgame-warn);
+
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -29,4 +46,4 @@ $roundnetcardgame-theme: mat-light-theme($roundnetcardgame-primary, $roundnetcar
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #232323;}

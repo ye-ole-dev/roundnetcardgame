@@ -14,20 +14,26 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { PORT } from '../port-settings';
+import { LoginComponent } from './login/login.component';
+import { MatInputModule } from '@angular/material/input';
+import { IngameComponent } from './ingame/ingame.component';
+import { ChatComponent } from './ingame/chat/chat.component';
+import { AboutComponent } from './about/about.component';
 
-
+// This sets the SocketIoConfig up to work with local testing as well as deployment on heroku
 const hostname = window.location.hostname;
-const url = (hostname === 'localhost') ? `${window.location.protocol}//${hostname}:8080` : undefined;
+const url = (hostname === 'localhost') ? `${window.location.protocol}//${hostname}:3456` : undefined;
 const config: SocketIoConfig = { url, options: {} };
 
-const port = PORT;
-//const config: SocketIoConfig = { url: '/', options: {} };
 
 @NgModule({
   declarations: [
     AppComponent,
-    RcgCardComponent
+    RcgCardComponent,
+    LoginComponent,
+    IngameComponent,
+    ChatComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +45,8 @@ const port = PORT;
     MatCardModule,
     MatButtonModule,
     MatMenuModule,
-    DragDropModule
+    DragDropModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
