@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Router } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+  private router: Router;
+  ) { }
 
   name: string;
 
@@ -16,6 +19,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     console.log(this.name);
+    this.router.navigate(['/ingame']);
   }
 
 }
