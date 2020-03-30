@@ -16,8 +16,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PORT } from '../port-settings';
 
+
+const hostname = window.location.hostname;
+const url = (hostname === 'localhost') ? `${window.location.protocol}//${hostname}:8080` : undefined;
+const config: SocketIoConfig = { url, options: {} };
+
 const port = PORT;
-const config: SocketIoConfig = { url: 'http://localhost:' + port, options: {} };
+//const config: SocketIoConfig = { url: '/', options: {} };
 
 @NgModule({
   declarations: [

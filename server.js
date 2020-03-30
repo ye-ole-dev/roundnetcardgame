@@ -5,12 +5,13 @@ const app = express();
 
 const path = require('path');
 const http = require('http');
-const server = http.Server(app);
+
+const server = http.Server(app); // MAY OR MAY NOT BE NECCESSARY
 
 const socketIO = require('socket.io');
 const io = socketIO(server);
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3456;
 
 // Game Stuff
 const cutserve = {
@@ -66,7 +67,7 @@ app.get('/*', function (req, res) {
 
 
 
-console.log("LISTINING");
+console.log("Listening");
 
 
 
