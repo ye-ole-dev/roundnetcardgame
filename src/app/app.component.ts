@@ -2,6 +2,7 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { ChatService } from './chat.service';
 
 import { Socket } from 'ngx-socket-io';
+import { GameService } from './game.service';
 
 
 @Component({
@@ -14,21 +15,30 @@ export class AppComponent {
   newMessage: string;
   messageList: string[] = [];
 
+  cards: any[] = [];
+  playedCards: any[] = [];
+
   constructor(
     private chatService: ChatService,
-    private socket: Socket,
-    private cdr: ChangeDetectorRef
+    private gameService: GameService
   ) {
-    /*
-        this.socket.on('new-message', (message) => {
-          console.log(message);
-        }); */
 
 
     this.chatService.getMessages().subscribe((message: string) => {
       this.messageList.push(message);
       console.log(this.messageList);
-      //this.cdr.detectChanges();
+
+    });
+
+    this.gameService.newGame().subscribe((response: any) => {
+      console.log(response);
+      this.cards.push(...response.cards);
+    });
+
+    this.gameService.playedCard().subscribe((response: any) => {
+      console.log('PLAYED CARD');
+      console.log(response);
+      this.playedCards.push(response.card);
     });
   }
 
@@ -38,6 +48,10 @@ export class AppComponent {
   sendMessage() {
     this.chatService.sendMessage(this.newMessage);
     this.newMessage = '';
+  }
+
+  startGame() {
+    this.gameService.startGame('');
   }
 
 

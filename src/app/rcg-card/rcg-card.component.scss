@@ -1,0 +1,21 @@
+:host {
+    
+    display: flex;
+    max-width: 300px;
+    flex-grow: 1;
+    &:hover {
+        z-index: 100;
+    }
+}
+
+
+::ng-deep mat-card.mat-card {
+    flex-grow: 1;
+    border-radius: 1.5rem;
+    z-index: 1;
+
+    &:hover {
+        cursor: pointer;
+        z-index: 100;
+    }
+}

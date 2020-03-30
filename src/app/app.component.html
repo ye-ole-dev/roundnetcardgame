@@ -7,4 +7,22 @@
 <input [(ngModel)]="newMessage" (keyup)="$event.keyCode == 13 && sendMessage()" />
 <button (click)="sendMessage()">Send</button>
 
+<button mat-raised-button color="primary" (click)="startGame()">Start Game</button>
+
+<div>
+  Played Cards:
+  <div>
+    <app-rcg-card *ngFor="let card of playedCards" [card]="card"></app-rcg-card>
+  </div>
+</div>
+
+<div>
+  Your Cards:
+  <div style="display: flex; flex-direction: row;">
+    <app-rcg-card *ngFor="let card of cards" cdkDrag [card]="card"></app-rcg-card>
+  </div>
+</div>
+
+
+
 <router-outlet></router-outlet>
