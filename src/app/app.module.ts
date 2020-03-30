@@ -14,9 +14,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { PORT } from '../port-settings';
 
-
-const port = 35575;
+const port = PORT;
 const config: SocketIoConfig = { url: 'http://localhost:' + port, options: {} };
 
 @NgModule({
