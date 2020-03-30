@@ -9,7 +9,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   constructor(
-  private router: Router;
+  private router: Router,
   ) { }
 
   name: string;
