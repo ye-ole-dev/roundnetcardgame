@@ -1,0 +1,16 @@
+:host {
+    background-color: white;
+}
+.messages {
+    max-height: 100px;
+    min-height: 100px;
+    height: 100px;
+    overflow-y: scroll;
+}
+
+.write-area {
+    background-color: grey;
+    position: relative;
+    bottom: 0px;
+    width: 100%;
+}

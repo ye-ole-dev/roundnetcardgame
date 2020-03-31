@@ -6,16 +6,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-import { RcgCardComponent } from './rcg-card/rcg-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatSliderModule } from '@angular/material/slider';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { LoginComponent } from './login/login.component';
 import { MatInputModule } from '@angular/material/input';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+
+import { AngularSplitModule } from 'angular-split';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
+// Customs
+import { RcgCardComponent } from './rcg-card/rcg-card.component';
+import { LoginComponent } from './login/login.component';
 import { IngameComponent } from './ingame/ingame.component';
 import { ChatComponent } from './ingame/chat/chat.component';
 import { AboutComponent } from './about/about.component';
@@ -46,7 +52,10 @@ const config: SocketIoConfig = { url, options: {} };
     MatButtonModule,
     MatMenuModule,
     DragDropModule,
-    MatInputModule
+    MatInputModule,
+    MatToolbarModule,
+    MatIconModule,
+    AngularSplitModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

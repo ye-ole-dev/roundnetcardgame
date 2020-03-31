@@ -1,17 +1,48 @@
 <button mat-raised-button color="primary" (click)="startGame()">Start Game</button>
 
-<div>
-    Played Cards:
-    <div>
-        <app-rcg-card *ngFor="let card of playedCards" [card]="card"></app-rcg-card>
-    </div>
-</div>
 
-<div>
-    Your Cards:
-    <div style="display: flex; flex-direction: row;">
-        <app-rcg-card *ngFor="let card of cards" cdkDrag [card]="card"></app-rcg-card>
-    </div>
-</div>
+<div class="field">
+    <div class="row one">
+        <aside class="header-left">
+        </aside>
+        <div class="header-center">
+            <h1>Other Player</h1>
+        </div>
 
-<app-chat></app-chat>
+        <aside class="header-right">
+        </aside>
+    </div>
+    <div class="row two">
+        <aside class="sidebar-left">
+            <h1 color="primary">Other Player</h1>
+        </aside>
+
+        <div class="center">
+            Played Cards:
+            <div style="display: flex; flex-direction: row; height: 200px; max-height: 200px;">
+                <app-rcg-card *ngIf="playedCards.length == 0" [deck]="true"></app-rcg-card>
+                <app-rcg-card *ngFor="let card of playedCards" [card]="card"></app-rcg-card>
+            </div>
+        </div>
+
+        <aside class="sidebar-right">
+            <h1 color="primary">Other Player</h1>
+        </aside>
+    </div>
+
+    <footer style="display: flex; flex-direction: column;">
+        <!--≈ <as-split direction="vertical" unit="percent">
+            <as-split-area size="10"> -->
+        <div class="my-cards">
+            Your Cards:
+            <div style="display: flex; flex-direction: row;">
+                <app-rcg-card *ngFor="let card of handCards" cdkDrag [card]="card"></app-rcg-card>
+            </div>
+        </div>
+        <!-- </as-split-area>
+            <as-split-area size="90"> -->
+        <app-chat></app-chat>
+        <!-- </as-split-area>
+        </as-split> -->
+    </footer>
+</div>

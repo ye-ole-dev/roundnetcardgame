@@ -11,7 +11,9 @@
                         (keyup)="$event.keyCode == 13 && login()">
                 </mat-form-field>
             </form>
-            <button mat-raised-button color="primary" (click)="login()">Login</button>
+            <button mat-raised-button color="primary" (click)="login()">
+                <mat-icon>touch_app</mat-icon><span>Login</span>
+            </button>
         </mat-card-content>
     </mat-card>
 </div>

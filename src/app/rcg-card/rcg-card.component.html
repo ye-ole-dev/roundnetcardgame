@@ -1,16 +1,19 @@
-<mat-card>
-    <mat-card-title> {{ card.title}} </mat-card-title>
-    <img mat-card-image src="assets/placeholder.png">
-    <mat-card-content>
-        {{ card.descr }}
-    </mat-card-content>
-    <span style="flex: 1 1 auto;"></span>
-    <mat-card-actions style="display: flex;">
-        <button mat-button>{{ card.atk }}</button>
-        <span style="flex: 1 1 auto;">
-        </span>
-        <button mat-raised-button (click)="play(card)">Play</button>
+<mat-card class="{{deck ? 'deck' : 'card'}}">
+    <ng-container *ngIf="!deck">
+        <mat-card-title> {{ card.title}} </mat-card-title>
+        <img mat-card-image src="assets/placeholder.png">
+        <mat-card-content>
+            {{ card.descr }}
+        </mat-card-content>
         <span style="flex: 1 1 auto;"></span>
-        <button mat-button>{{ card.def }}</button>
-    </mat-card-actions>
+        <mat-card-actions style="display: flex;">
+            <button mat-button>{{ card.atk }}</button>
+            <span style="flex: 1 1 auto;">
+            </span>
+            <button mat-raised-button (click)="play(card)">Play</button>
+            <span style="flex: 1 1 auto;"></span>
+            <button mat-button>{{ card.def }}</button>
+        </mat-card-actions>
+    </ng-container>
+    <div style="height: 300px; width: 150px" *ngIf="deck"></div>
 </mat-card>

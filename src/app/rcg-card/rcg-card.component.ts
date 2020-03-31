@@ -26,14 +26,18 @@ export class RcgCardComponent implements OnInit {
   @Input()
   card: RCGCard;
 
+  @Input()
+  deck: boolean;
+
   ngOnInit(): void {
 
   }
 
+
   play(card: RCGCard) {
     console.log('Played: ' + card.title);
 
-    this.gameService.playCard(card, 'Dummy');
+    this.gameService.playCard(card);
     // TODO: remove this card from cards (add id)
     // send this card to other player
   }

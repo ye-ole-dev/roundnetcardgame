@@ -14,8 +14,13 @@ export class ChatService {
   ) {
   }
 
-  public sendMessage(message: string) {
-    this.socket.emit('new-message', message);
+  public sendMessage(message: string, roomName?: string) {
+    if (roomName) {
+      console.log('Send Message to room: ' + message, roomName);
+      this.socket.emit('new-message-to-room', { message, roomName });
+    } else {
+      this.socket.emit('new-message', message);
+    }
   }
 
   public getMessages = () => {
@@ -26,4 +31,5 @@ export class ChatService {
       });
     });
   }
+
 }

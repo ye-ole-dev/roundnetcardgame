@@ -1,8 +1,9 @@
 :host {
+    // find a way for padding top (aspect-ratio) to work
+    width: 100%;
+    max-height: 300px;
     
-    display: flex;
-    max-width: 300px;
-    flex-grow: 1;
+    
     &:hover {
         z-index: 100;
     }
@@ -10,9 +11,16 @@
 
 
 ::ng-deep mat-card.mat-card {
-    flex-grow: 1;
-    border-radius: 1.5rem;
+  
+  min-height: 100px;
+  border-radius: 1.5rem;
+
+
     z-index: 1;
+}
+
+
+::ng-deep mat-card.card {
 
     &:hover {
         cursor: pointer;
