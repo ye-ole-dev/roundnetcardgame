@@ -70,10 +70,45 @@ const recieve = {
     per: 90
 };
 
+// // // Sets
+const basic_set = {
+    title: 'Basic Set',
+    type: 'set',
+    action: false,
+    descr: 'Setting the ball up for your teammate!',
+    atk: 3,
+    def: 3,
+    per: 90
+};
+
+// // // Attacks 
+const basic_hit = {
+    title: 'Basic Hit',
+    type: 'attack',
+    action: false,
+    descr: 'A basic hit on the net.',
+    atk: 3,
+    def: 0,
+    per: 95
+};
+
+
+
 
 const gameInfo = {
     name: 'Test',
-    cards: [cutServe, recieve, fwango, leftyServe, safeServe, bodyFake, tossFake]
+    cards: [
+        // Serves
+        cutServe, fwango, leftyServe, safeServe,
+        // Recieves
+        recieve, recieve, recieve, recieve, recieve,
+        // Sets
+        basic_set, basic_set, basic_set,
+        // Attacks
+        basic_hit, basic_hit, basic_hit, basic_hit,
+        // Actions
+        bodyFake, tossFake
+    ]
 };
 
 

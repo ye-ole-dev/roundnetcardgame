@@ -5,8 +5,10 @@
     <div class="row one">
         <aside class="header-left">
         </aside>
+
         <div class="header-center">
             <h1>Other Player</h1>
+            <app-rcg-card [deck]="true"></app-rcg-card>
         </div>
 
         <aside class="header-right">
@@ -15,28 +17,34 @@
     <div class="row two">
         <aside class="sidebar-left">
             <h1 color="primary">Other Player</h1>
+            <app-rcg-card [deck]="true"></app-rcg-card>
         </aside>
 
         <div class="center">
             Played Cards:
             <div style="display: flex; flex-direction: row; height: 200px; max-height: 200px;">
                 <app-rcg-card *ngIf="playedCards.length == 0" [deck]="true"></app-rcg-card>
-                <app-rcg-card *ngFor="let card of playedCards" [card]="card"></app-rcg-card>
+                <app-rcg-card *ngFor="let card of playedCards" [card]="card" [playable]="false"></app-rcg-card>
             </div>
         </div>
 
         <aside class="sidebar-right">
             <h1 color="primary">Other Player</h1>
+            <app-rcg-card [deck]="true"></app-rcg-card>
         </aside>
     </div>
 
-    <footer style="display: flex; flex-direction: column;">
+    <footer>
         <!--≈ <as-split direction="vertical" unit="percent">
             <as-split-area size="10"> -->
-        <div class="my-cards">
+        <div class="my-area">
             Your Cards:
-            <div style="display: flex; flex-direction: row;">
-                <app-rcg-card *ngFor="let card of handCards" cdkDrag [card]="card"></app-rcg-card>
+            <div class="my-cards">
+                <span style="flex: 1 1 auto"></span>
+                <app-rcg-card *ngIf="handCards.length == 0" [deck]="true"></app-rcg-card>
+                <app-rcg-card *ngFor="let card of handCards" cdkDrag [card]="card" [playable]="true"
+                    (cardActionClickedEvent)="cardActionClicked(card)"></app-rcg-card>
+                <span style="flex: 1 1 auto"></span>
             </div>
         </div>
         <!-- </as-split-area>

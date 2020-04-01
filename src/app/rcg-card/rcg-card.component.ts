@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { GameService } from '../game.service';
 
 export interface RCGCard {
@@ -21,7 +21,7 @@ export class RcgCardComponent implements OnInit {
     private gameService: GameService
   ) { }
 
-
+  cardActionText = 'Discard';
 
   @Input()
   card: RCGCard;
@@ -29,17 +29,21 @@ export class RcgCardComponent implements OnInit {
   @Input()
   deck: boolean;
 
-  ngOnInit(): void {
+  @Input()
+  playable: boolean;
 
+  @Output()
+  cardActionClickedEvent = new EventEmitter();
+
+  ngOnInit(): void {
   }
 
 
-  play(card: RCGCard) {
-    console.log('Played: ' + card.title);
 
-    this.gameService.playCard(card);
-    // TODO: remove this card from cards (add id)
-    // send this card to other player
+  cardActionClicked(card: RCGCard) {
+    this.cardActionClickedEvent.emit(card);
+
+
   }
 
 }

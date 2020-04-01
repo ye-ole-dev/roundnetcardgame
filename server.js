@@ -62,6 +62,20 @@ io.on('connection', (socket) => {
     // socket.emit('start-game', 'Testmessage EMIT');
   });
 
+  socket.on('discard-card', (data) => {
+    // Just return it to the sender ;-) 
+    console.log('Discarded Card: ' + data.card.title);
+    socket.emit('discard-card', data);
+  });
+
+  socket.on('pass-card-to-teammate', (data) => {
+    // return it to the sender
+    socket.emit('pass-card-to-teammate', data);
+    // return it to the teammate
+    const teammate = ''
+    io.to(teammate).emit('recieve-card-from-teammate', data);
+  });
+
   socket.on('play-card', (data) => {
     console.log(data.card);
     console.log(data.user);
@@ -92,6 +106,7 @@ function createNewRoom(socket, name) {
   socket.join(name);
   rooms.push(name);
   console.log('Number of rooms: ' + rooms.length);
+  console.log('Rooms: ' + rooms.join(' '));
 }
 console.log("Listening");
 

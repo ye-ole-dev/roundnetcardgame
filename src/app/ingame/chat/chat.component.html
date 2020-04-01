@@ -5,7 +5,8 @@
 </div>
 <div class="write-area">
     <mat-form-field style="width: 80%">
-        <input matInput autocomplete="false" [(ngModel)]="newMessage" (keyup)="$event.keyCode == 13 && sendMessage()" />
+        <input matInput autocomplete="false" placeholder="Enter message ..." [(ngModel)]="newMessage"
+            (keyup)="$event.keyCode == 13 && sendMessage()" />
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="sendMessage()">Send</button>
 </div>

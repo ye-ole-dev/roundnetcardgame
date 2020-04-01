@@ -15,13 +15,22 @@
 
 footer {
     flex-grow: 1;
-    background-color: green;
+
+    display: flex;
+    flex-direction: column;
+    
 }
 
 
-.my-cards {
+.my-area {
     width: 100%;
     overflow: scroll;
+
+    .my-cards {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
 }
 
 .row {
@@ -32,6 +41,29 @@ footer {
     
 }
 
+.row.one {
+    overflow-y: scroll;
+    justify-content: space-between;
+    aside {
+        min-width: 200px;
+    }
+    .header-center {
+        overflow-x: auto;
+        max-width: 50vw;
+    }
+}
+
 .row.two {
     overflow-y: scroll;
+    justify-content: space-between;
+    align-items: stretch;
+
+    aside {
+        min-width: 200px;
+    }
+
+    .center {
+        overflow-x: auto;
+        max-width: 50vw;
+    }
 }
