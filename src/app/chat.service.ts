@@ -4,6 +4,11 @@ import { Socket } from 'ngx-socket-io';
 import { Message } from './message';
 import { Observable } from 'rxjs';
 
+export interface NewMessage {
+  message: string;
+  from: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -25,9 +30,18 @@ export class ChatService {
 
   public getMessages = () => {
     return new Observable((observer) => {
-      this.socket.on('new-message', (message: string) => {
+      this.socket.on('new-message', (response: NewMessage) => {
         console.log('new-message');
-        observer.next(message);
+        observer.next(response);
+      });
+    });
+  }
+
+  public getMyData = () => {
+    return new Observable((observer) => {
+      this.socket.on('my-data', (response: any) => {
+        console.log(response);
+        observer.next(response);
       });
     });
   }

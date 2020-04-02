@@ -15,30 +15,97 @@ export class GameService {
   public PASS_TO_TEAMMATE_STATE = 'pass-to-teammate';
   public RALLY_STATE = 'rally';
 
-  room: string;
+  gameId: string;
   user: string;
   state = 'initial';
   cardCounter = 0;
+  team: string;
+  cardToBePassed: any;
 
   constructor(
     private socket: Socket
   ) { }
 
-  public startGame(message: string) {
-    this.socket.emit('start-game', message);
+  public startGame() {
+
+    this.socket.emit('start-game', this.gameId);
+
   }
 
-  public newGame = () => {
+  public startedGame = () => {
     return new Observable((observer) => {
       this.socket.on('start-game', (response: any) => {
-
         this.state = 'initial';
-        this.room = response.name;
-        console.log(this.room + ' - Room');
+        // this.gameId = response.name;
+        // console.log(this.gameId + ' - Room');
         observer.next(response);
       });
     });
   }
+
+  public gameStateChanged = () => {
+    return new Observable((observer) => {
+      this.socket.on('game-state-changed', (response: any) => {
+
+        observer.next(response);
+      });
+    });
+  }
+
+  public getGameInfo() {
+    this.socket.emit('get-game-info', this.gameId);
+  }
+
+  public gameReadyChanged = () => {
+    return new Observable((observer) => {
+      this.socket.on('game-ready-changed', (response: any) => {
+        observer.next(response);
+      });
+    });
+  }
+
+  public createGame(team: string, privateGame?: boolean) {
+    // TODO checks
+    this.team = team;
+    const name = Date.now().toString() + Math.floor(Math.random()).toString();
+    this.socket.emit('create-game', { name, privateGame });
+    this.joinGame(name, team);
+  }
+
+  public createdGame = () => {
+    return new Observable((observer) => {
+      this.socket.on('create-game', (response: any) => {
+        observer.next(response);
+      });
+    });
+  }
+
+  public joinGame(gameId: string, team: string) {
+    this.team = team;
+    this.socket.emit('join-game', { team, gameId });
+  }
+
+  public joinedGame = () => {
+    return new Observable((observer) => {
+      this.socket.on('join-game', (response: any) => {
+        console.log('joinedGame');
+        this.gameId = response.gameId;
+        this.team = response.team;
+        observer.next(response);
+      });
+    });
+  }
+
+  public confirmGame(gameId: string): boolean {
+    console.log(gameId);
+    console.log(this.gameId);
+    if (gameId === this.gameId) {
+      return true;
+    }
+
+    return false;
+  }
+
 
   public getRoomInfo(roomName: string) {
     this.socket.emit('room-info', roomName);
@@ -69,7 +136,16 @@ export class GameService {
   public recievedCardFromTeammate = () => {
     return new Observable((observer) => {
       this.socket.on('recieve-card-from-teammate', (response: any) => {
-        observer.next(response);
+        if (response.team === this.team && response.user !== this.user) {
+          // In the same Team, but not yourself (just to be sure)!
+          if (this.cardToBePassed) {
+            observer.next(response);
+            observer.next(this.cardToBePassed);
+            this.cardToBePassed = undefined;
+          } else {
+            this.cardToBePassed = response;
+          }
+        }
       });
     });
   }
@@ -116,7 +192,8 @@ export class GameService {
 
   private passCardToTeammate(card: RCGCard) {
     const user = this.user;
-    this.socket.emit('pass-card-to-teammate', { card, user });
+    const team = this.team;
+    this.socket.emit('pass-card-to-teammate', { card, user, team });
   }
 
   private playCard(card: RCGCard) {

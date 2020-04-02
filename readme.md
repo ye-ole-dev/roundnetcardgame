@@ -2,9 +2,29 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.3.
 
-## Development server
+## Rules
+
+The rules are pending to change! The main idea behind the game is, that it should be as close to the real-thing as possible.
+
+##
+
+# Development
+
+If you want to contribute to the project, here is a good place to start:
+
+## Architecture
+ 
+The system consists of two main parts:
+* the Angular client
+* the express / socket.io server
+
+### Angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4321/`. The app will automatically reload if you change any of the source files.
+
+### Express
+
+Run `ng build` and than `node server.js` for the full application. You can use `ng serve` as well for development purposes (hot reloading of client while developing).
 
 ## Code scaffolding
 

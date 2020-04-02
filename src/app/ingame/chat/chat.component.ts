@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ChatService } from 'src/app/chat.service';
+import { Component, OnInit, Input } from '@angular/core';
+import { ChatService, NewMessage } from 'src/app/chat.service';
 import { GameService } from 'src/app/game.service';
 
 @Component({
@@ -9,9 +9,14 @@ import { GameService } from 'src/app/game.service';
 })
 export class ChatComponent implements OnInit {
 
-  roomName: string;
+  name: string;
+
   newMessage: string;
-  messageList: string[] = [];
+  messageList: NewMessage[] = [];
+
+
+  @Input()
+  gameId: string;
 
   constructor(
     private chatService: ChatService,
@@ -19,17 +24,13 @@ export class ChatComponent implements OnInit {
   ) {
 
 
-    this.chatService.getMessages().subscribe((message: string) => {
-      this.messageList.push(message);
-      console.log(this.messageList);
+    this.chatService.getMyData().subscribe((response: any) => {
+      // console.log(response);
     });
 
-    this.gameService.newGame().subscribe((response: any) => {
-      console.log('Chat Component logs: ');
-      console.log(response);
-      // A new game was created! Switch to the room:
-      this.roomName = response.name;
-
+    this.chatService.getMessages().subscribe((response: NewMessage) => {
+      this.messageList.push(response);
+      // console.log(this.messageList);
     });
   }
 
@@ -37,7 +38,7 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage() {
-    this.chatService.sendMessage(this.newMessage, this.roomName);
+    this.chatService.sendMessage(this.newMessage, this.gameId);
     this.newMessage = '';
   }
 }

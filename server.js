@@ -16,45 +16,60 @@ const io = socketIO(server);
 const PORT = process.env.PORT || 3456;
 
 let users = [];
-let rooms = [];
+let games = [];
+let privateGames = [];
+let sockets = [];
+
 
 io.on('connection', (socket) => {
+  let name = '';
   console.log('user connected');
 
+
   socket.on('new-user', (message) => {
-    console.log(message);
     users.push(message);
-    let amount_string;
+    name = message;
+    sockets.push(socket.id);
+    // return socket info to User
+    socket.emit('my-data', { socketId: socket.id, name: message });
+
+    let amountString;
     if (users.length > 1) {
-      amount_string = 'Users are';
+      amountString = 'Users are';
     } else {
-      amount_string = 'User is';
+      amountString = 'User is';
     }
-    message = 'The following ' + amount_string + ' in the game: ' + users.join(' ');
-    io.emit('new-message', message);
+    message = 'The following ' + amountString + ' online: ' + users.join(' ');
+    io.emit('new-message', { message, from: 'System' });
   });
 
   socket.on('new-message', (message) => {
     console.log(message);
-    io.emit('new-message', message);
+    io.emit('new-message', { message, from: name });
   });
 
   socket.on('new-message-to-room', data => {
     console.log(data);
     console.log(data.roomName);
     console.log(data.message);
-    io.to(data.roomName).emit('new-message', data.message);
+    io.to(data.roomName).emit('new-message', { message: data.message, from: name });
   });
 
-  socket.on('start-game', (message) => {
-    if (typeof (message) !== 'string') {
-      message = 'DUMMY'
-    }
-    console.log('START GAME: ' + message);
+  socket.on('create-game', (data) => {
     // Create a new Room for this game:
-    createNewRoom(socket, message);
+    createNewGame(socket, data.name, data.privateGame);
+    socket.emit('create-game', { games });
+  });
 
-    gameInfo.name = message;
+  socket.on('get-game-info', (gameId) => {
+    getGameInfo(gameId);
+  });
+
+  socket.on('start-game', (data) => {
+    console.log(data);
+
+
+    gameInfo.name = '';
 
     // This returns to all in io
     io.emit('start-game', gameInfo);
@@ -63,7 +78,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('discard-card', (data) => {
-    // Just return it to the sender ;-) 
+    // Just return it to the sender ;-)
     console.log('Discarded Card: ' + data.card.title);
     socket.emit('discard-card', data);
   });
@@ -72,8 +87,8 @@ io.on('connection', (socket) => {
     // return it to the sender
     socket.emit('pass-card-to-teammate', data);
     // return it to the teammate
-    const teammate = ''
-    io.to(teammate).emit('recieve-card-from-teammate', data);
+    const game = getGameFromSocketId(socket.id)
+    socket.to(game).emit('recieve-card-from-teammate', data);
   });
 
   socket.on('play-card', (data) => {
@@ -89,26 +104,120 @@ io.on('connection', (socket) => {
     socket.emit('room-info', data);
   });
 
-  socket.on('disconnect', function () {
+  socket.on('private-message', (data) => {
+    // sending to individual socketid (private message)
+    io.to(`${data.socketId}`).emit('private-message', data.message);
+  });
+
+  socket.on('join-game', (data) => {
+    console.log('JOIN GAME');
+    if (joinGame(socket, data.gameId)) {
+      // io.to(data.gameId).emit('join-game', data);
+      console.log('EMITTING join-game');
+      socket.emit('join-game', data);
+    }
+  });
+
+
+  socket.on('disconnect', () => {
     console.log('user disconnected');
   });
 });
 
-setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
+// setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
 
 app.use(express.static(__dirname + '/dist/roundnetcardgame'));
 
-app.get('/*', function (req, res) {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'roundnetcardgame', 'index.html'));
 });
 
-function createNewRoom(socket, name) {
-  socket.join(name);
-  rooms.push(name);
-  console.log('Number of rooms: ' + rooms.length);
-  console.log('Rooms: ' + rooms.join(' '));
+function getGameFromSocketId(socketId) {
+  let gameId = '';
+  games.forEach(g => {
+    g.sockets.forEach(s => {
+      if (s === socketId) {
+        gameId = g.gameId;
+        return gameId;
+      }
+    });
+    if (gameId) {
+      return gameId;
+    }
+  });
+  return gameId;
 }
-console.log("Listening");
+
+function joinGame(socket, gameId) {
+  let success = false;
+  socket.join(gameId);
+  games.forEach(g => {
+    if (g.gameId === gameId) {
+      if (g.sockets.length < 4) {
+        g.sockets.push(socket.id);
+        console.log('GAME JOINED');
+        success = true;
+        return;
+      } else {
+        // WARNING
+        console.warn('Game: ' + gameId + ' is full!');
+      }
+    } else {
+      // ERROR
+      console.error('GameId: ' + gameId + ' not found!');
+    }
+  });
+  return success;
+}
+
+function getGameInfo(gameId) {
+  games.forEach(g => {
+    if (g.gameId === gameId) {
+      const ready = g.sockets.length === 4;
+      const text = ready ? 'Ready' : g.sockets.length + ' out of 4 Players!';
+      const data = {
+        ready,
+        text
+      };
+      io.to(g.gameId).emit('game-ready-changed', data);
+      if (ready) {
+        const gameStateChanged = {
+          gameState: 'ready',
+          showDialog: true,
+          dTitle: 'Lets Play',
+          dText: 'See rules ... #discard'
+        };
+        io.to(g.gameId).emit('game-state-changed', gameStateChanged);
+      }
+    } else {
+      // ERROR
+      console.warn('GameId: ' + gameId + ' not found!');
+    }
+  });
+}
+
+function createNewGame(socket, name, privateGame) {
+  // add gameChannel to socket
+  socket.join(name);
+
+  // add game to list of games
+  const game = {
+    gameId: name,
+    sockets: []
+  };
+  if (privateGame) {
+    privateGames.push(game);
+  } else {
+    games.push(game);
+  }
+  console.log('Number of rooms: ' + games.length);
+  const gameStrings = [];
+  games.forEach(g => {
+    gameStrings.push(g.gameId);
+  });
+  console.log('Games: ' + gameStrings.join(' '));
+}
+
 
 
 

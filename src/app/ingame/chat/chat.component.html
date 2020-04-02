@@ -1,6 +1,8 @@
+System: {{gameId}}
+<!--
 <div class="messages">
     <div class="message" *ngFor="let message of messageList">
-        {{ message }}
+        <span>{{message.from}}: {{message.message}}</span>
     </div>
 </div>
 <div class="write-area">
@@ -10,3 +12,4 @@
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="sendMessage()">Send</button>
 </div>
+-->

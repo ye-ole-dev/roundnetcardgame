@@ -3,6 +3,7 @@ import { ChatService } from './chat.service';
 
 import { Socket } from 'ngx-socket-io';
 import { GameService } from './game.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,10 +16,19 @@ export class AppComponent {
 
 
   constructor(
+    private gameService: GameService,
+    private router: Router
   ) {
+    this.gameService.joinedGame().subscribe((response: any) => {
+      console.log(response);
+      if (response) {
 
+        console.log(response);
+        this.router.navigate(['/ingame', response.gameId, response.team]);
+      }
+    }
 
-
+    );
 
   }
 

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +15,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 import { AngularSplitModule } from 'angular-split';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -25,6 +30,9 @@ import { LoginComponent } from './login/login.component';
 import { IngameComponent } from './ingame/ingame.component';
 import { ChatComponent } from './ingame/chat/chat.component';
 import { AboutComponent } from './about/about.component';
+import { LobbyComponent } from './lobby/lobby.component';
+import { GamesComponent } from './lobby/games/games.component';
+import { GameStateChangedComponent } from './ingame/dialogs/game-state-changed/game-state-changed.component';
 
 // This sets the SocketIoConfig up to work with local testing as well as deployment on heroku
 const hostname = window.location.hostname;
@@ -39,24 +47,34 @@ const config: SocketIoConfig = { url, options: {} };
     LoginComponent,
     IngameComponent,
     ChatComponent,
-    AboutComponent
+    AboutComponent,
+    LobbyComponent,
+    GamesComponent,
+    GameStateChangedComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SocketIoModule.forRoot(config),
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSliderModule,
     MatCardModule,
     MatButtonModule,
+    MatDialogModule,
+    MatRadioModule,
+    MatSlideToggleModule,
+    MatDividerModule,
     MatMenuModule,
+    MatSliderModule,
     DragDropModule,
     MatInputModule,
     MatToolbarModule,
     MatIconModule,
     AngularSplitModule.forRoot()
   ],
+  entryComponents: [IngameComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

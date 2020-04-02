@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { IngameComponent } from './ingame/ingame.component';
+import { AuthGuard } from './auth/auth.guard';
+import { LobbyComponent } from './lobby/lobby.component';
 
 
 const routes: Routes = [
@@ -21,8 +23,23 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'ingame',
-    component: IngameComponent
+    path: 'lobby',
+    component: LobbyComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'ingame/:gameId/:team',
+    component: IngameComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: '**',
+    /** TODO: May add a page-not-found-component
+     * (or handle redirecting otherways) with
+     * fun 'lobster-trab'/'missed'/'rim'/ texts
+     */
+    redirectTo: '/login',
+    pathMatch: 'full'
   }
 ];
 

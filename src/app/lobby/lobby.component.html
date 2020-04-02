@@ -1,0 +1,39 @@
+<div style="width: 450px;">
+    <mat-card>
+        <mat-card-header>
+            <h1>Lobby</h1>
+        </mat-card-header>
+        <mat-card-content>
+            <app-games [games]="games"></app-games>
+            <h3>Chat</h3>
+            <app-chat></app-chat>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions style="display: flex;">
+            <mat-radio-group aria-label="Select your team" color="primary" style="display: flex;flex-direction: column;"
+                [(ngModel)]="teamSelection" required>Team
+                <mat-radio-button value="A">A</mat-radio-button>
+                <mat-radio-button color="accent" value="B">B</mat-radio-button>
+            </mat-radio-group>
+            <span style="flex: 1 1 auto;"></span>
+            <div>
+                <p>Private?</p>
+                <mat-slide-toggle [color]="teamSelection == 'B' ? 'accent' : 'primary'" [(ngModel)]="privateGame">
+                </mat-slide-toggle>
+            </div>
+            <span style="flex: 2 1 auto;"></span>
+            <button mat-stroked-button color="accent" (click)="createGame()">Create
+                Game</button>
+        </mat-card-actions>
+
+        <mat-card-actions style="display: flex;">
+            <mat-form-field color="primary">
+                <mat-label>Game-ID</mat-label>
+                <input matInput autocomplete="false" name="gameId" [(ngModel)]="gameId">
+                <!--<mat-hint>The Game-ID is optional!</mat-hint>-->
+            </mat-form-field>
+            <span style="flex: 2 1 auto;"></span>
+            <button mat-flat-button color="primary" (click)="joinGame()">Join Game</button>
+        </mat-card-actions>
+    </mat-card>
+</div>
