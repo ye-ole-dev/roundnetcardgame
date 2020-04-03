@@ -1,20 +1,33 @@
-<mat-card class="{{deck ? 'deck' : 'card'}}">
+<!-- <mat-card class="{{deck ? 'deck' : 'card'}}">
     <ng-container *ngIf="!deck">
         <mat-card-title> {{ card.title}} </mat-card-title>
-        <!--<img src="assets/placeholder.png" />-->
+        
         <div class="image" style="background-image: url('../../assets/placeholder.png');"></div>
         <mat-card-content>
             {{ card.descr }}
         </mat-card-content>
         <span style="flex: 1 1 auto;"></span>
         <mat-card-actions>
-            <p>{{ card.atk }}</p>
-            <!--<span style="flex: 1 1 auto;">
+            <p>{{ card.atk }}</p>-->
+<!--<span style="flex: 1 1 auto;">
             </span>-->
-            <button *ngIf="playable" mat-raised-button (click)="cardActionClicked(card)">{{cardActionText}}</button>
-            <!--<span style="flex: 1 1 auto;"></span>-->
-            <p>{{ card.def }}</p>
+<!--<button *ngIf="playable" mat-raised-button (click)="cardActionClicked(card)">{{cardActionText}}</button>-->
+<!--<span style="flex: 1 1 auto;"></span>-->
+<!--    <p>{{ card.def }}</p>
         </mat-card-actions>
     </ng-container>
     <div class="blank-card" *ngIf="deck"></div>
-</mat-card>
+</mat-card> -->
+<ng-container *ngIf="card">
+    <div class="rcg-card-title"> {{ card.title }} </div>
+    <div class="rcg-card-image"></div>
+    <div class="rcg-card-content"> {{ card.descr }} </div>
+    <mat-divider></mat-divider>
+    <div class="rcg-card-actions">
+        <span> {{ card.atk }}</span>
+        <span style="flex: 1 1 auto;"></span>
+        <button *ngIf="playable" mat-stroked-button (click)="cardActionClicked(card)">Test</button>
+        <span style="flex: 1 1 auto;"></span>
+        <span> {{ card.def }}</span>
+    </div>
+</ng-container>

@@ -1,18 +1,55 @@
+.rcg-card-title {
+    margin: 0.5rem 1rem 0rem 1rem;
+    font-weight: 500;
+    font-size: 1.3rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.rcg-card-image {
+    width: 100%;
+    padding-top: 60%;
+    background-color: darkred;
+}
+
+.rcg-card-content {
+    flex: 1 1 auto;
+    padding: 0.5rem;
+}
+
+.rcg-card-actions {
+    margin: 0rem 1rem 0.2rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    display: inline-flex;
+    font-size: 1.1rem;
+    align-items: center;
+}
+
+
+
+// OLD STUFF
+
+/*
 :host {
     // find a way for padding top (aspect-ratio) to work
     
-    min-width: 200px;
-    max-width: 200px;
-    min-height: 350px;
-    max-height: 350px;
+    min-width: 120px;
+    max-width: 120px;
+    min-height: 250px;
+    max-height: 250px;
     &:hover {
         z-index: 100;
     }
 }
 
 .blank-card {
-    height: 310px;
-    width: 150px;
+    height: 250px;
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+    min-height: 250px;
+    max-height: 250px;
 }
 
 ::ng-deep mat-card.mat-card {
@@ -24,6 +61,14 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+
+    .mat-card-title {
+        font-size: 1.0rem;
+    }
+
+    .mat-card-content {
+        font-size: 0.7rem;
+    }
 }
 
 ::ng-deep mat-card.card {
@@ -46,3 +91,4 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
+*/

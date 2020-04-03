@@ -4,6 +4,7 @@ import { RCGCard } from '../rcg-card/rcg-card.component';
 import { ActivatedRoute, Params } from '@angular/router';
 import { GameStateChangedComponent } from './dialogs/game-state-changed/game-state-changed.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-ingame',
@@ -89,6 +90,11 @@ export class IngameComponent implements OnInit {
     }
     this.cards.push(cards);
   }
+
+  public drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.handCards, event.previousIndex, event.currentIndex);
+  }
+
 
 
 
