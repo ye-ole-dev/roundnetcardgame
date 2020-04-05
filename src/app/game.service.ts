@@ -24,11 +24,25 @@ export class GameService {
 
   constructor(
     private socket: Socket
-  ) { }
+  ) {
+    // this.user = Math.random().toString();
+    // this.gameId = Math.random().toString();
+  }
+
+  public getUser() {
+    return this.user;
+  }
 
   public startGame() {
 
     this.socket.emit('start-game', this.gameId);
+
+  }
+
+  public startPoint() {
+    // What needs to be done for a new point?
+    this.socket.emit('start-point', this.gameId);
+
 
   }
 
@@ -43,10 +57,19 @@ export class GameService {
     });
   }
 
+  public startedPoint = () => {
+    return new Observable((observer) => {
+      this.socket.on('start-point', (response: any) => {
+        this.state = 'initial';
+        this.cardCounter = 0;
+        observer.next(response);
+      });
+    });
+  }
+
   public gameStateChanged = () => {
     return new Observable((observer) => {
       this.socket.on('game-state-changed', (response: any) => {
-
         observer.next(response);
       });
     });
@@ -80,11 +103,12 @@ export class GameService {
     });
   }
 
+  /** Joining the game on the server */
   public joinGame(gameId: string, team: string) {
-    this.team = team;
     this.socket.emit('join-game', { team, gameId });
   }
 
+  /** setting local variables for gameService */
   public joinedGame = () => {
     return new Observable((observer) => {
       this.socket.on('join-game', (response: any) => {
@@ -96,6 +120,9 @@ export class GameService {
     });
   }
 
+  /**Checks whether the gameService already knows about the game ..
+   *
+   */
   public confirmGame(gameId: string): boolean {
     console.log(gameId);
     console.log(this.gameId);
@@ -150,11 +177,21 @@ export class GameService {
     });
   }
 
+  public possessionChanged = () => {
+    return new Observable((observer) => {
+      this.socket.on('change-possession', (response: any) => {
+        observer.next(response);
+      });
+    });
+  }
+
+  public changePossession(atk: number) {
+    this.socket.emit('change-possession', { gameId: this.gameId, atk });
+  }
 
   public playedCard = () => {
     return new Observable((observer) => {
       this.socket.on('play-card', (response: any) => {
-        console.log(response);
         observer.next(response);
       });
     });
@@ -162,12 +199,7 @@ export class GameService {
 
   /** Handles the cardActionClicked event */
   public cardActionClicked(card: RCGCard): string {
-    if (this.cardCounter === 2) {
-      this.state = this.PASS_TO_TEAMMATE_STATE;
-    } else if (this.cardCounter === 4) {
-      this.state = this.RALLY_STATE;
-    }
-
+    // do stuff with current state
     if (this.state === 'initial') {
       // Discard Card
       this.discardCard(card);
@@ -178,7 +210,13 @@ export class GameService {
     } else {
       console.warn('State: ' + this.state + ' not handled in game.service.ts');
     }
+    // update state
     this.cardCounter++;
+    if (this.cardCounter === 2) {
+      this.state = this.PASS_TO_TEAMMATE_STATE;
+    } else if (this.cardCounter === 4) {
+      this.state = this.RALLY_STATE;
+    }
     return this.state;
   }
 
@@ -198,7 +236,11 @@ export class GameService {
 
   private playCard(card: RCGCard) {
     const user = this.user;
-    this.socket.emit('play-card', { card, user });
+    const gameId = this.gameId;
+    console.warn(gameId);
+    // Play the Card
+    this.socket.emit('play-card', { card, user, gameId });
+
   }
 
   public newUser = (name: string) => {

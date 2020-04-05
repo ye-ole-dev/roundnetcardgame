@@ -1,15 +1,16 @@
 :host {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    position: relative;
     width: 100vw;
+    overflow: scroll;
     
 }
 
 .field {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    flex-grow: 2;
     overflow:scroll;
 }
 
@@ -23,7 +24,7 @@ app-rcg-card,
 .rcg-card {
     height: 290px;  // * 1.2 = 288
     width: 180px;  // * 1.2 = 180
-    min-width: 180px; 
+    // min-width: 180px; 
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
@@ -34,13 +35,15 @@ app-rcg-card,
 .rcg-card.rotated {
     height: 180px;
     width: 290px;
-    min-width: 290px;
+    // todo: may have mobile stuff
+    // min-width: 290px;
 }
 
 .my-cards {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-start;
+    overflow-x: scroll;
 }
 
 .my-area {
@@ -83,6 +86,15 @@ app-rcg-card,
         width: 20vw;
         max-width: 20vw;
 
+        ::ng-deep mat-card-actions {
+            display: flex; 
+            flex-direction: column;
+            
+            &> * {
+                margin-top: 0.5rem;
+            }
+        }
+
     }
     .header-center {
         overflow-x: auto;
@@ -100,6 +112,10 @@ app-rcg-card,
 
     .center {
         overflow-x: auto;
-        max-width: 50vw;
+        
+        min-width: 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 }

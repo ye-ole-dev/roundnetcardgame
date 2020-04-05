@@ -19,6 +19,7 @@ let users = [];
 let games = [];
 let privateGames = [];
 let sockets = [];
+let gameStats = {};
 
 
 io.on('connection', (socket) => {
@@ -26,29 +27,27 @@ io.on('connection', (socket) => {
     console.log('user connected');
 
 
-    socket.on('new-user', (message) => {
-        users.push(message);
-        name = message;
+    socket.on('new-user', (userName) => {
+        console.log('new-user');
+        users.forEach(n => {
+            socket.emit('new-user', n);
+        });
+        users.push(userName);
+        name = userName;
         sockets.push(socket.id);
         // return socket info to User
-        socket.emit('my-data', { socketId: socket.id, name: message });
+        socket.emit('my-data', { socketId: socket.id, name });
+        io.emit('new-user', name);
 
-        let amountString;
-        if (users.length > 1) {
-            amountString = 'Users are';
-        } else {
-            amountString = 'User is';
-        }
-        message = 'The following ' + amountString + ' online: ' + users.join(' ');
-        io.emit('new-message', { message, from: 'System' });
     });
 
     socket.on('new-message', (message) => {
-        console.log(message);
+        console.log('new-message');
         io.emit('new-message', { message, from: name });
     });
 
     socket.on('new-message-to-room', data => {
+        console.log('new-message-to-room');
         console.log(data);
         console.log(data.roomName);
         console.log(data.message);
@@ -56,16 +55,19 @@ io.on('connection', (socket) => {
     });
 
     socket.on('create-game', (data) => {
+        console.log('create-game');
         // Create a new Room for this game:
         createNewGame(socket, data.name, data.privateGame);
-        socket.emit('create-game', { games });
+        io.emit('create-game', { games });
     });
 
     socket.on('get-game-info', (gameId) => {
+        console.log('get-game-info');
         getGameInfo(gameId);
     });
 
     socket.on('start-game', (data) => {
+        console.log('start-game');
         console.log(data);
 
 
@@ -77,13 +79,19 @@ io.on('connection', (socket) => {
         // socket.emit('start-game', 'Testmessage EMIT');
     });
 
+    socket.on('start-point', (data) => {
+        console.log('start-point');
+        io.emit('start-point', gameInfo);
+    });
+
     socket.on('discard-card', (data) => {
         // Just return it to the sender ;-)
-        console.log('Discarded Card: ' + data.card.title);
+        console.log('discard-card: ' + data.card.title);
         socket.emit('discard-card', data);
     });
 
     socket.on('pass-card-to-teammate', (data) => {
+        console.log('pass-card-to-teammate');
         // return it to the sender
         socket.emit('pass-card-to-teammate', data);
         // return it to the teammate
@@ -92,29 +100,43 @@ io.on('connection', (socket) => {
     });
 
     socket.on('play-card', (data) => {
-        console.log(data.card);
-        console.log(data.user);
+        console.log('play-card');
+        // INFO data = {card: RCGCard, user: string, gameId: string}
+        // TODO: consider saving cards on server as well save card ..
+        // gameStats[data.gameId].push(data.card);
+        console.log(data.gameId);
+        io.in(data.gameId).emit('play-card', data);
 
-        io.emit('play-card', data);
+        // io.emit('play-card', data);
+    });
+
+
+    socket.on('change-possession', (data) => {
+        io.in(data.gameId).emit('change-possession', data.atk);
     });
 
     socket.on('room-info', roomName => {
+        console.log('room-info');
         const amount = io.sockets.clients(roomName).length;
         const data = { amount };
         socket.emit('room-info', data);
     });
 
     socket.on('private-message', (data) => {
+        console.log('private-message');
         // sending to individual socketid (private message)
         io.to(`${data.socketId}`).emit('private-message', data.message);
     });
 
     socket.on('join-game', (data) => {
-        console.log('JOIN GAME');
+        console.log('join-game');
         if (joinGame(socket, data.gameId)) {
             // io.to(data.gameId).emit('join-game', data);
             console.log('EMITTING join-game');
             socket.emit('join-game', data);
+        } else {
+            // TODO: Game couldn't be joined
+            // socket.emit('server-error');
         }
     });
 
@@ -149,15 +171,23 @@ function getGameFromSocketId(socketId) {
 }
 
 function joinGame(socket, gameId) {
+    console.log('Try to join game: ' + gameId);
     let success = false;
     socket.join(gameId);
+    // what to do if no game exits .. 
+
+    if (games.length === 0) {
+        console.log('Create a new (public) game ... ');
+        createNewGame(socket, gameId, false);
+    }
     games.forEach(g => {
         if (g.gameId === gameId) {
             if (g.sockets.length < 4) {
                 g.sockets.push(socket.id);
                 console.log('GAME JOINED');
                 success = true;
-                return;
+                console.log('Game: ' + gameId + ' joined!');
+                return true;
             } else {
                 // WARNING
                 console.warn('Game: ' + gameId + ' is full!');
@@ -165,6 +195,7 @@ function joinGame(socket, gameId) {
         } else {
             // ERROR
             console.error('GameId: ' + gameId + ' not found!');
+
         }
     });
     return success;
@@ -196,13 +227,13 @@ function getGameInfo(gameId) {
     });
 }
 
-function createNewGame(socket, name, privateGame) {
+function createNewGame(socket, gameId, privateGame) {
     // add gameChannel to socket
-    socket.join(name);
+    socket.join(gameId);
 
     // add game to list of games
     const game = {
-        gameId: name,
+        gameId,
         sockets: []
     };
     if (privateGame) {
@@ -215,6 +246,7 @@ function createNewGame(socket, name, privateGame) {
     games.forEach(g => {
         gameStrings.push(g.gameId);
     });
+    gameStats[gameId] = [];
     console.log('Games: ' + gameStrings.join(' '));
 }
 

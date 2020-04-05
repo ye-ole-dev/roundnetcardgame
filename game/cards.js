@@ -2,6 +2,7 @@
 
 // Game Stuff
 // // Cards
+const cards = []
 // // // Services
 const cutServe = {
     title: 'Cut Serve',
@@ -12,6 +13,7 @@ const cutServe = {
     def: 0,
     per: 25
 };
+cards.push(cutServe);
 const fwango = {
     title: 'Fwango',
     type: 'serve',
@@ -21,6 +23,7 @@ const fwango = {
     def: 0,
     per: 35
 };
+cards.push(fwango);
 const leftyServe = {
     title: 'Lefty',
     type: 'serve',
@@ -30,6 +33,7 @@ const leftyServe = {
     def: 0,
     per: 40
 };
+cards.push(leftyServe);
 const safeServe = {
     title: 'Safe Serve',
     type: 'serve',
@@ -39,6 +43,7 @@ const safeServe = {
     def: 0,
     per: 99
 };
+cards.push(safeServe);
 // // // Service Actions
 const bodyFake = {
     title: 'Body Fake',
@@ -49,6 +54,7 @@ const bodyFake = {
     def: 0,
     per: 50
 };
+cards.push(bodyFake);
 const tossFake = {
     title: 'Toss Fake',
     type: 'serve',
@@ -58,6 +64,7 @@ const tossFake = {
     def: 0,
     per: 90
 };
+cards.push(tossFake);
 
 // // // Recieves
 const recieve = {
@@ -69,6 +76,42 @@ const recieve = {
     def: 7,
     per: 90
 };
+cards.push(recieve);
+
+const bodyBlock = {
+    title: 'Body Block',
+    type: 'recieve',
+    action: false,
+    desrc: 'Blocking the ball with the body!',
+    atk: 1,
+    def: 6,
+    per: 60
+};
+cards.push(bodyBlock);
+
+const runForIt = {
+    title: 'Run for it',
+    type: 'recieve',
+    action: false,
+    descr: 'Chasing after the ball way off the net!',
+    atk: 0,
+    def: 5,
+    per: 50
+};
+cards.push(runForIt);
+
+const badTouch = {
+    title: 'Bad Touch',
+    type: 'recieve',
+    action: false,
+    descr: 'No words .. ',
+    atk: 0,
+    def: 1,
+    per: 100
+};
+cards.push(badTouch);
+
+
 
 // // // Sets
 const basic_set = {
@@ -80,7 +123,17 @@ const basic_set = {
     def: 3,
     per: 90
 };
-
+cards.push(basic_set);
+const centeredSet = {
+    title: 'Centered Set',
+    type: 'set',
+    action: false,
+    descr: 'Your teammate just needs to hit the net now .. ',
+    atk: 8,
+    def: 4,
+    per: 80
+};
+cards.push(centeredSet);
 // // // Attacks 
 const basic_hit = {
     title: 'Basic Hit',
@@ -91,7 +144,7 @@ const basic_hit = {
     def: 0,
     per: 95
 };
-
+cards.push(basic_hit);
 
 
 
@@ -101,9 +154,9 @@ const gameInfo = {
         // Serves
         cutServe, fwango, leftyServe, safeServe,
         // Recieves
-        recieve, recieve, recieve, recieve, recieve,
+        recieve, recieve, recieve, recieve, badTouch, runForIt, bodyBlock,
         // Sets
-        basic_set, basic_set, basic_set,
+        basic_set, basic_set, basic_set, centeredSet,
         // Attacks
         basic_hit, basic_hit, basic_hit, basic_hit,
         // Actions
@@ -112,5 +165,5 @@ const gameInfo = {
 };
 
 
-
+module.exports = cards;
 module.exports = gameInfo;

@@ -9,13 +9,26 @@ export class GamesComponent implements OnInit {
 
 
   @Input()
-  games: any[];
+  list: any[];
 
-  constructor() { }
+  @Input()
+  key: string;
+
+  @Input()
+  title: string;
+
+  constructor() {
+
+  }
 
 
 
   ngOnInit(): void {
+
   }
 
+
+  ngOnChange() {
+
+  }
 }

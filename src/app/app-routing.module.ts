@@ -33,6 +33,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'ingame/:gameId',
+    component: IngameComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: '**',
     /** TODO: May add a page-not-found-component
      * (or handle redirecting otherways) with

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { GameService } from 'src/app/game.service';
+import { InfrastructureService } from '../infrastructure.service';
 
 @Component({
   selector: 'app-lobby',
@@ -12,10 +13,13 @@ export class LobbyComponent implements OnInit {
   gameId: string;
   privateGame: boolean;
   games: any[] = [];
+  users: any[] = [];
 
 
   constructor(
-    private gameService: GameService
+    private gameService: GameService,
+    private infrastructureService: InfrastructureService,
+    private cdr: ChangeDetectorRef
   ) {
     this.gameService.createdGame().subscribe((response) => {
       console.log(response);
@@ -25,9 +29,15 @@ export class LobbyComponent implements OnInit {
         const games = response.games as any[];
         this.games = games;
       }
-    }
+    });
 
-    );
+    this.infrastructureService.newUser().subscribe((response) => {
+      this.users.push({ string: response });
+
+      this.cdr.detectChanges();
+    });
+
+
   }
 
   ngOnInit(): void {

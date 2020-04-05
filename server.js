@@ -92,9 +92,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('play-card', (data) => {
-    console.log(data.card);
-    console.log(data.user);
-
+    // data = {card: RCGCard, user: string}
     io.emit('play-card', data);
   });
 

@@ -3,18 +3,36 @@
         <mat-toolbar color="primary">
             <mat-toolbar-row>
                 <mat-icon>all_out</mat-icon><span>Roundnet Card Game</span>
+                <span style="flex: 1 1 auto"></span>
 
+                <button mat-icon-button (click)="sidenav = !sidenav;">
+                    <mat-icon>school</mat-icon>
+                </button>
             </mat-toolbar-row>
         </mat-toolbar>
     </header>
 
 
-    <div class="main">
-        <router-outlet></router-outlet>
-    </div>
+    <!--<div class="main">-->
+    <mat-sidenav-container class="main" hasBackdrop="false">
+        <mat-sidenav position="end" [opened]="sidenav" mode="side">
+            <app-help></app-help>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+    <!-- </div>-->
 
 
     <footer>
-        <mat-toolbar color="primary"></mat-toolbar>
+        <mat-toolbar color="primary">
+            <span style="flex: 1 1 auto;"></span>
+            <span style="font-size: 0.7rem; font-weight: 100;">© 2020 - Ole Hagenah </span>
+            <a href="https://github.com/qloikp/roundnetcardgame/" target="_blank"><img
+                    style="margin-left: 0.5rem; height: 1rem;" src="assets/github-white-64.png"></a>
+            <span style="flex: 1 1 auto;"></span>
+        </mat-toolbar>
     </footer>
 </div>

@@ -1,20 +1,29 @@
 <div style="height: 100%;display: flex; justify-content: center; align-items: center">
     <mat-card>
         <mat-card-header>
-            <h1> Welcome to the Roundnet Card Game </h1>
+            <mat-card-title> Welcome to the Roundnet Card Game </mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <form>
                 <mat-form-field style="width: 100%" appearance="outline">
                     <mat-label>Name</mat-label>
                     <input matInput autocomplete="false" name="name" [formControl]="name" required>
-                    <mat-error *ngIf="name.invalid">{{getErrorMessage()}}</mat-error>
+                    <mat-error *ngIf="name.invalid">{{getNameErrorMessage()}}</mat-error>
                     <!--(keyup)="$event.keyCode == 13 && login()"-->
                 </mat-form-field>
+                <mat-form-field style="width: 100%" appearance="outline">
+                    <mat-label>License Key ;-)</mat-label>
+                    <input matInput autocomplete="false" name="license" [formControl]="license" required>
+                    <mat-error *ngIf="license.invalid">{{getLicenseErrorMessage()}}</mat-error>
+                </mat-form-field>
             </form>
-            <button mat-raised-button color="primary" (click)="login()">
+        </mat-card-content>
+        <mat-card-actions style="display: flex;">
+            <span style="flex: 1 1 auto;"></span>
+            <button mat-raised-button color="primary" (click)="login()"
+                [disabled]="(!name || name.invalid) || (!license || license.invalid)">
                 <mat-icon>touch_app</mat-icon><span>Join</span>
             </button>
-        </mat-card-content>
+        </mat-card-actions>
     </mat-card>
 </div>

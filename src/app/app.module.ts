@@ -19,6 +19,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSidenavModule } from '@angular/material/sidenav';
+
 
 
 import { AngularSplitModule } from 'angular-split';
@@ -33,6 +35,7 @@ import { AboutComponent } from './about/about.component';
 import { LobbyComponent } from './lobby/lobby.component';
 import { GamesComponent } from './lobby/games/games.component';
 import { GameStateChangedComponent } from './ingame/dialogs/game-state-changed/game-state-changed.component';
+import { HelpComponent } from './help/help.component';
 
 // This sets the SocketIoConfig up to work with local testing as well as deployment on heroku
 const hostname = window.location.hostname;
@@ -50,7 +53,8 @@ const config: SocketIoConfig = { url, options: {} };
     AboutComponent,
     LobbyComponent,
     GamesComponent,
-    GameStateChangedComponent
+    GameStateChangedComponent,
+    HelpComponent
   ],
   imports: [
     BrowserModule,
@@ -66,6 +70,7 @@ const config: SocketIoConfig = { url, options: {} };
     MatRadioModule,
     MatSlideToggleModule,
     MatDividerModule,
+    MatSidenavModule,
     MatMenuModule,
     MatSliderModule,
     DragDropModule,

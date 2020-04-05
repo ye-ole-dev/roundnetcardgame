@@ -4,6 +4,7 @@ import { ChatService } from './chat.service';
 import { Socket } from 'ngx-socket-io';
 import { GameService } from './game.service';
 import { Router } from '@angular/router';
+import { InfrastructureService } from './infrastructure.service';
 
 
 @Component({
@@ -13,20 +14,25 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'roundnetcardgame';
-
+  sidenav = false;
 
   constructor(
     private gameService: GameService,
+    private infrastructureService: InfrastructureService,
     private router: Router
   ) {
-    this.gameService.joinedGame().subscribe((response: any) => {
-      console.log(response);
-      if (response) {
+    this.infrastructureService.serverError().subscribe((response: any) => {
+      alert('SERVER ERROR! PLEASE TRY AGAIN LATER');
+      this.router.navigate(['/login']);
+    });
 
-        console.log(response);
-        this.router.navigate(['/ingame', response.gameId, response.team]);
+    this.gameService.joinedGame().subscribe((response: any) => {
+
+      if (response) {
+        this.router.navigate(['/ingame', response.gameId]);
       }
     }
+
 
     );
 

@@ -1,18 +1,23 @@
 :host {
-    background-color: white;
-    opacity: 0.5;
-    color: black;
+    flex-grow: 2;
 }
+
+@import "../../../styles.scss"; 
 .messages {
-    max-height: 100px;
-    min-height: 100px;
-    height: 100px;
+    max-height: 250px;
+    min-height: 250px;
+    height: 250px;
     overflow-y: scroll;
+    padding: 0.2rem;
+    border: 1px solid $primary;
 }
 
 .write-area {
-    background-color: grey;
     position: relative;
     bottom: 0px;
     width: 100%;
+
+    button {
+        margin-left: 1rem;
+    }
 }

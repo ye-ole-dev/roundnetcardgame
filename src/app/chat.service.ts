@@ -32,6 +32,7 @@ export class ChatService {
     return new Observable((observer) => {
       this.socket.on('new-message', (response: NewMessage) => {
         console.log('new-message');
+        console.log(response);
         observer.next(response);
       });
     });

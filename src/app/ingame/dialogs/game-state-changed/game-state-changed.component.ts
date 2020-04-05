@@ -8,12 +8,17 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class GameStateChangedComponent {
 
+
+
   constructor(
     public dialogRef: MatDialogRef<GameStateChangedComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  ) {
+    console.log(this.data);
+  }
 
   onNoClick(): void {
+
     this.dialogRef.close();
 
 

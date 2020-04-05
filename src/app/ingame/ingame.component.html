@@ -2,15 +2,25 @@
     <div class="row one">
         <aside class="header-left">
             <div>
-                <button mat-raised-button color="primary" (click)="ready()">
-                    <!--[disabled]="!gameReady"-->Ready</button>
-                <mat-hint>{{ gameReadyText }}</mat-hint>
+                <mat-card>
+                    <mat-card-title>Stuff</mat-card-title>
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" (click)="startGame()">Start Game</button>
+                        <button mat-raised-button color="primary" (click)="startPoint()">Start New Point</button>
+
+                        <button mat-stroked-button color="accent" (click)="changePossession()">Change
+                            Posession</button>
+                        <div>Game Score: {{ score?.A }} : {{ score?.B }}</div>
+
+                        <div>Current ATK: {{ atk }}, Current DEF: {{ def }} (against: {{ atkToBeat }})</div>
+                    </mat-card-actions>
+                </mat-card>
             </div>
         </aside>
 
         <div class="header-center">
             <div class="my-cards">
-                <div class="rcg-card">
+                <div class="rcg-card rotated">
 
                 </div>
             </div>
@@ -30,9 +40,10 @@
         </aside>
 
         <div class="center">
-            Played Cards:
+            Played Cards: {{cardActionText}}
             <div class="my-cards">
                 <app-rcg-card *ngIf="playedCards.length == 0"></app-rcg-card>
+
                 <app-rcg-card *ngFor="let card of playedCards" [card]="card" [playable]="false"></app-rcg-card>
             </div>
             <!-- <app-rcg-card *ngIf="playedCards.length == 0" [deck]="true"></app-rcg-card> -->
@@ -56,15 +67,17 @@
     <div class="my-area">
         Your Cards: (Team: {{ teamSelection }})
         <div class="my-cards" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
-            <!--<span style="flex: 1 1 auto"></span>-->
+
+
             <!-- <app-rcg-card *ngIf="handCards.length == 0" [deck]="true"></app-rcg-card> -->
             <!-- app-rcg-card *ngFor="let card of handCards" cdkDrag [card]="card" [playable]="true"
                     (cardActionClickedEvent)="cardActionClicked(card)"></app-rcg-card> -->
             <!-- <img src="" height="240px" width="160px" /> -->
+            <span style=" flex: 1 1 auto"></span>
             <div *ngIf="handCards.length == 0" class="rcg-card"></div>
-            <app-rcg-card *ngFor="let card of handCards" [card]="card"
+            <app-rcg-card *ngFor="let card of handCards" [card]="card" [cardActionText]="cardActionText"
                 (cardActionClickedEvent)="cardActionClicked(card)" [playable]="true" cdkDrag></app-rcg-card>
-            <!--<span style=" flex: 1 1 auto"></span>-->
+            <span style=" flex: 1 1 auto"></span>
         </div>
     </div>
     <!-- </as-split-area>
@@ -72,4 +85,6 @@
     <app-chat [gameId]="gameId"></app-chat>
     <!-- </as-split-area>
         </as-split> -->
+
+    Cards: {{ cards.length}} myPlayedCards: {{ myPlayedCards.length }}
 </footer>

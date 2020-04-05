@@ -1,15 +1,17 @@
-System: {{gameId}}
-<!--
-<div class="messages">
-    <div class="message" *ngFor="let message of messageList">
-        <span>{{message.from}}: {{message.message}}</span>
+<div>
+    <h3>Chat</h3>
+    <div class="messages">
+        <span>System: {{gameId}}</span>
+        <div class="message" *ngFor="let message of messageList">
+            <span>{{message.from}}: {{message.message}}</span>
+        </div>
+    </div>
+    <div class="write-area">
+        <mat-form-field style="width: 80%">
+            <mat-label>Message</mat-label>
+            <input matInput autocomplete="false" aria-label="Nach" placeholder="Enter chat message ..."
+                [(ngModel)]="newMessage" (keyup)="$event.keyCode == 13 && sendMessage()" />
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="sendMessage()">Send</button>
     </div>
 </div>
-<div class="write-area">
-    <mat-form-field style="width: 80%">
-        <input matInput autocomplete="false" placeholder="Enter message ..." [(ngModel)]="newMessage"
-            (keyup)="$event.keyCode == 13 && sendMessage()" />
-    </mat-form-field>
-    <button mat-raised-button color="primary" (click)="sendMessage()">Send</button>
-</div>
--->

@@ -49,7 +49,8 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #232323;
 color: white;}
 
-::ng-deep mat-icon {
+/* ::ng-deep mat-icon {
       margin-right: 2.5rem;
-    }
+    }*/
   
+$primary: mat-color($roundnetcardgame-primary);

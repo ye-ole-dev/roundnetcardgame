@@ -1,2 +1,10 @@
 <h1>{{data.dTitle}}</h1>
 <p>{{data.dText}}</p>
+<ng-container *ngIf="data.dTitle == 'Select your Team!'">
+    <mat-radio-group aria-label="Select your team" color="primary" style="display: flex;flex-direction: column;"
+        [(ngModel)]="data.team" required>Team
+        <mat-radio-button value="A">A</mat-radio-button>
+        <mat-radio-button color="accent" value="B">B</mat-radio-button>
+    </mat-radio-group>
+    <button mat-raised-button color="primary" [mat-dialog-close]="data.team">Ok</button>
+</ng-container>

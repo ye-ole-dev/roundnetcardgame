@@ -21,7 +21,6 @@ export class RcgCardComponent implements OnInit {
     private gameService: GameService
   ) { }
 
-  cardActionText = 'Discard';
 
   @Input()
   card: RCGCard;
@@ -32,10 +31,14 @@ export class RcgCardComponent implements OnInit {
   @Input()
   playable: boolean;
 
+  @Input()
+  cardActionText: string;
+
   @Output()
   cardActionClickedEvent = new EventEmitter();
 
   ngOnInit(): void {
+    this.cardActionText = this.cardActionText ? this.cardActionText : 'Discard';
   }
 
 
