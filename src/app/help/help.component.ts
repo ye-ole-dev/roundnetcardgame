@@ -33,7 +33,7 @@ export class HelpComponent implements OnInit {
       });
   */
     this.router.events.subscribe((data: any) => {
-      //console.log(data);
+      // console.log(data);
       console.log(this.router.url);
       if (this.router.url === '/lobby') {
         this.sections = [{

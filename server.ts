@@ -26,6 +26,15 @@ io.on('connection', (socket) => {
     let name = '';
     console.log('user connected');
 
+    socket.on('reset data', (data) => {
+        if (data === 'null') {
+            users = [];
+            games = [];
+            privateGames = [];
+            sockets = [];
+            gameStats = {};
+        }
+    });
 
     socket.on('new-user', (userName) => {
         console.log('new-user');

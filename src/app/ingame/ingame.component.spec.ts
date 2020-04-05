@@ -10,14 +10,14 @@ class MockGameService {
 
   playedCard() { }
 
-};
+}
 
 describe('IngameComponent', () => {
   let component: IngameComponent;
   let fixture: ComponentFixture<IngameComponent>;
   // let mockedGameService: MockGameService;
   let service: GameService;
-  let spy: any;
+
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
