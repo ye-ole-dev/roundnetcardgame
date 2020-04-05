@@ -21,6 +21,7 @@ export class RcgCardComponent implements OnInit {
     private gameService: GameService
   ) { }
 
+  icon: string;
 
   @Input()
   card: RCGCard;
@@ -39,6 +40,29 @@ export class RcgCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.cardActionText = this.cardActionText ? this.cardActionText : 'Discard';
+    this.icon = 'ball';
+    if (this.card) {
+      switch (this.card.type) {
+        case 'serve':
+          this.icon = 'sports_handball';
+          break;
+        case 'hit':
+          this.icon = 'slow_motion_video';
+          break;
+        case 'recieve':
+          // this.icon = 'settings_backup_restore';
+          this.icon = 'policy';
+          break;
+        case 'set':
+          this.icon = 'gps_fixed';
+          break;
+        default:
+          this.icon = 'sports_volleyball';
+
+      }
+    }
+
+
   }
 
 

@@ -19,11 +19,15 @@
     <div class="blank-card" *ngIf="deck"></div>
 </mat-card> -->
 <ng-container *ngIf="card">
-    <div class="rcg-card-title"> {{ card.title }} </div>
+    <div class="rcg-card-title"> <span>{{ card.title }} </span>
+        <span style="flex: 1 1 auto;"></span>
+        <mat-icon> {{icon}} </mat-icon>
+        <mat-icon *ngIf="card.action">flash_on</mat-icon>
+    </div>
     <div class="rcg-card-image"></div>
     <div class="rcg-card-content"> {{ card.descr }} </div>
     <mat-divider></mat-divider>
-    <div class="rcg-card-actions">
+    <div class=" rcg-card-actions">
         <span> {{ card.atk }}</span>
         <span style="flex: 1 1 auto;"></span>
         <button *ngIf="playable" mat-stroked-button (click)="cardActionClicked(card)">{{cardActionText}}</button>

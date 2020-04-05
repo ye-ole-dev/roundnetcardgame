@@ -120,5 +120,19 @@ app-rcg-card,
         min-width: 500px;
         display: flex;
         z-index: 1;
+
+        .my-cards {
+            ::ng-deep app-rcg-card:nth-of-type(2) {
+                height: 285px;
+                width: 175px;
+                background-color: #153737;
+            }
+        
+            ::ng-deep app-rcg-card:nth-of-type(3) {
+                height: 280px;
+                width: 170px;
+                background-color: #153737;
+            }
+        }
     }
 }

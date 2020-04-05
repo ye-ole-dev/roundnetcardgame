@@ -191,7 +191,8 @@ export class GameService {
   }
 
   public changePossession(atk: number) {
-    this.socket.emit('change-possession', { gameId: this.gameId, atk });
+    const team = this.team;
+    this.socket.emit('change-possession', { gameId: this.gameId, atk, team });
   }
 
   public playedCard = () => {

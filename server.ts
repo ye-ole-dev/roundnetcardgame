@@ -121,7 +121,7 @@ io.on('connection', (socket) => {
 
 
     socket.on('change-possession', (data) => {
-        io.in(data.gameId).emit('change-possession', data.atk);
+        io.in(data.gameId).emit('change-possession', data);
     });
 
     socket.on('room-info', roomName => {

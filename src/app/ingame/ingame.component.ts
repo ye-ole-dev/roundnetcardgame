@@ -67,16 +67,20 @@ export class IngameComponent implements OnInit {
     this.gameService.startedGame().subscribe((response: any) => {
       console.log('StartedGame');
       console.log(response);
+      this.resetCards();
+      this.resetRallyPoints();
       const cards = response.cards;
       this.drawHandCards(cards);
 
       this.score = { A: 0, B: 0 };
-      this.atk = 0;
-      this.def = 0;
-      this.atkToBeat = 0;
+
     });
 
     this.gameService.startedPoint().subscribe((response: any) => {
+      this.cardActionText = 'Discard';
+      this.resetCards();
+      // TODO: UPDATE SCORE
+      this.resetRallyPoints();
       const cards = response.cards;
       this.drawHandCards(cards);
     });
@@ -109,7 +113,11 @@ export class IngameComponent implements OnInit {
         this.handCards.splice(i, 1);
         this.myPlayedCards.push(response.card);
       }
-      this.playedCards.push(response.card);
+      this.playedCards.unshift(response.card);
+      if (this.playedCards.length === 4) {
+        this.playedCards.pop();
+      }
+
       // SCORING:
       console.log(response.card.atk);
       this.atk += response.card.atk;
@@ -117,9 +125,35 @@ export class IngameComponent implements OnInit {
     });
 
     this.gameService.possessionChanged().subscribe((response: any) => {
-      this.atkToBeat = response;
+      // check for point loss:
+      if (this.def < this.atkToBeat) {
+        // this player looses a score
+        const otherTeam = response.team === 'A' ? 'B' : 'A';
+        this.score[otherTeam]++;
+        // may call start point from one player ...
+      }
+
+      this.atk = 0;
+      this.def = 0;
+
+      this.atkToBeat = response.atk;
     });
   }
+
+  private resetCards() {
+    this.playedCards = [];
+    this.handCards = [];
+    this.passedCards = [];
+    this.discardedCards = [];
+    this.myPlayedCards = [];
+  }
+
+  private resetRallyPoints() {
+    this.atk = 0;
+    this.def = 0;
+    this.atkToBeat = 0;
+  }
+
   private drawHandCards(cards: any[]) {
     let i: number;
     for (let j = 0; j < this.NUMBER_OF_HAND_CARDS; j++) {
@@ -232,24 +266,11 @@ export class IngameComponent implements OnInit {
   }
 
   startPoint() {
-    this.cardActionText = 'Discard';
     this.gameService.startPoint();
-
-    this.playedCards = []; // TODO: move this to listener
-    this.handCards = [];
-    this.passedCards = [];
-    this.discardedCards = [];
-    this.myPlayedCards = [];
-
-
-
   }
 
   changePossession() {
-    const atk = this.atk;
-    this.atk = 0;
-    this.def = 0;
-    this.atkToBeat = 0;
-    this.gameService.changePossession(atk);
+
+    this.gameService.changePossession(this.atk);
   }
 }
