@@ -3,13 +3,14 @@
         <aside class="header-left">
             <div>
                 <mat-card>
-                    <mat-card-title>Stuff</mat-card-title>
+                    <mat-card-title>Game Control</mat-card-title>
                     <mat-card-actions>
                         <button mat-raised-button color="primary" (click)="startGame()">Start Game</button>
                         <button mat-raised-button color="primary" (click)="startPoint()">Start New Point</button>
 
                         <button mat-stroked-button color="accent" (click)="changePossession()">Change
                             Posession</button>
+                        <mat-divider></mat-divider>
                         <div>Game Score: {{ score?.A }} : {{ score?.B }}</div>
 
                         <div>Current ATK: {{ atk }}, Current DEF: {{ def }} (against: {{ atkToBeat }})</div>
@@ -39,12 +40,14 @@
             </div>
         </aside>
 
-        <div class="center">
-            Played Cards: {{cardActionText}}
-            <div class="my-cards">
+        <div class="center my-area">
+
+            <div class="my-cards" style="width: 100%;">
+                <span style="flex: 1 1 auto"></span>
                 <app-rcg-card *ngIf="playedCards.length == 0"></app-rcg-card>
 
                 <app-rcg-card *ngFor="let card of playedCards" [card]="card" [playable]="false"></app-rcg-card>
+                <span style="flex: 1 1 auto"></span>
             </div>
             <!-- <app-rcg-card *ngIf="playedCards.length == 0" [deck]="true"></app-rcg-card> -->
             <!-- <app-rcg-card *ngFor="let card of playedCards" [card]="card" [playable]="false"></app-rcg-card> -->
@@ -73,11 +76,11 @@
             <!-- app-rcg-card *ngFor="let card of handCards" cdkDrag [card]="card" [playable]="true"
                     (cardActionClickedEvent)="cardActionClicked(card)"></app-rcg-card> -->
             <!-- <img src="" height="240px" width="160px" /> -->
-            <span style=" flex: 1 1 auto"></span>
+            <span style="flex: 1 1 auto"></span>
             <div *ngIf="handCards.length == 0" class="rcg-card"></div>
             <app-rcg-card *ngFor="let card of handCards" [card]="card" [cardActionText]="cardActionText"
                 (cardActionClickedEvent)="cardActionClicked(card)" [playable]="true" cdkDrag></app-rcg-card>
-            <span style=" flex: 1 1 auto"></span>
+            <span style="flex: 1 1 auto"></span>
         </div>
     </div>
     <!-- </as-split-area>

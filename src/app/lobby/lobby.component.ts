@@ -44,13 +44,13 @@ export class LobbyComponent implements OnInit {
   }
 
   createGame() {
-    this.gameService.createGame(this.teamSelection, this.privateGame);
+    this.gameService.createGame(this.privateGame);
   }
 
   joinGame() {
     if (!this.gameId) {
       console.warn('No Game Id');
     }
-    this.gameService.joinGame(this.gameId, this.teamSelection);
+    this.gameService.joinGame(this.gameId);
   }
 }

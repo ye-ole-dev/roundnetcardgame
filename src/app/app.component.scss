@@ -6,6 +6,7 @@
     
     height: 100%;
     width: 100%;
+    min-width: 500px;
   }
 
 header,
@@ -32,6 +33,7 @@ mat-sidenav-container {
 
 .main {
     grid-column: 1 / 4;
+    
 }
 
 header, footer {

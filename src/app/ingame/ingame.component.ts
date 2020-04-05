@@ -160,14 +160,15 @@ export class IngameComponent implements OnInit {
         console.log(result);
         console.log('join team for now');
         this.teamSelection = result;
+        this.gameService.setTeam(result);
         this.gameService.getGameInfo();
-        this.checkGame(this.gameId, this.teamSelection);
+        this.checkGame(this.gameId);
 
       }
     });
   }
 
-  private checkGame(gameId: string, teamSelection: string) {
+  private checkGame(gameId: string) {
     // CHECK IF PLAYER IS IN GAME FORM SERVER
     if (this.gameService.confirmGame(gameId)) {
       console.log('Game confirmed');
@@ -175,7 +176,7 @@ export class IngameComponent implements OnInit {
       console.warn('SOMETHING WENT WRONG!');
 
       // TODO: for now join user now!
-      this.gameService.joinGame(gameId, teamSelection);
+      this.gameService.joinGame(gameId);
     }
   }
 
@@ -191,7 +192,7 @@ export class IngameComponent implements OnInit {
 
         // Only proceed if everything is okay ..
         this.gameService.getGameInfo();
-        this.checkGame(params.gameId, params.team);
+        this.checkGame(params.gameId);
 
       }
 

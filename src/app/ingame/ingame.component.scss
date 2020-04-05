@@ -3,7 +3,8 @@
     flex-direction: column;
     position: relative;
     width: 100vw;
-    overflow: scroll;
+    min-width: 500px;
+    overflow: auto;
     
 }
 
@@ -11,7 +12,7 @@
     display: flex;
     flex-direction: column;
     flex-grow: 2;
-    overflow:scroll;
+    overflow: auto;
 }
 
 footer {
@@ -24,7 +25,7 @@ app-rcg-card,
 .rcg-card {
     height: 290px;  // * 1.2 = 288
     width: 180px;  // * 1.2 = 180
-    // min-width: 180px; 
+    min-width: 170px; 
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
@@ -43,12 +44,13 @@ app-rcg-card,
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    overflow-x: scroll;
+    
 }
 
 .my-area {
     width: 100%;
     flex-grow: 1;
+    overflow-x: scroll;
 
     .cdk-drag-preview {
         box-sizing: border-box;
@@ -84,7 +86,7 @@ app-rcg-card,
     justify-content: space-between;
     aside {
         width: 20vw;
-        max-width: 20vw;
+        min-width: 300px;
 
         ::ng-deep mat-card-actions {
             display: flex; 
@@ -103,19 +105,20 @@ app-rcg-card,
 }
 
 .row.two {
-    overflow-y: scroll;
-    justify-content: space-around;
+    
+    justify-content: center;
     align-items: center;
 
     aside {
     }
 
     .center {
-        overflow-x: auto;
-        
-        min-width: 600px;
+        width: 100%;
+        overflow-x: scroll;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        min-width: 500px;
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        z-index: 1;
     }
 }

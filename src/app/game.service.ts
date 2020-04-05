@@ -87,12 +87,12 @@ export class GameService {
     });
   }
 
-  public createGame(team: string, privateGame?: boolean) {
+  public createGame(privateGame?: boolean) {
     // TODO checks
-    this.team = team;
+
     const name = Date.now().toString() + Math.floor(Math.random()).toString();
     this.socket.emit('create-game', { name, privateGame });
-    this.joinGame(name, team);
+    this.joinGame(name);
   }
 
   public createdGame = () => {
@@ -104,8 +104,8 @@ export class GameService {
   }
 
   /** Joining the game on the server */
-  public joinGame(gameId: string, team: string) {
-    this.socket.emit('join-game', { team, gameId });
+  public joinGame(gameId: string) {
+    this.socket.emit('join-game', { gameId });
   }
 
   /** setting local variables for gameService */
@@ -114,7 +114,6 @@ export class GameService {
       this.socket.on('join-game', (response: any) => {
         console.log('joinedGame');
         this.gameId = response.gameId;
-        this.team = response.team;
         observer.next(response);
       });
     });
@@ -163,6 +162,8 @@ export class GameService {
   public recievedCardFromTeammate = () => {
     return new Observable((observer) => {
       this.socket.on('recieve-card-from-teammate', (response: any) => {
+        console.log(response);
+        console.log(this.team);
         if (response.team === this.team && response.user !== this.user) {
           // In the same Team, but not yourself (just to be sure)!
           if (this.cardToBePassed) {
@@ -175,6 +176,10 @@ export class GameService {
         }
       });
     });
+  }
+
+  public setTeam(team: string) {
+    this.team = team;
   }
 
   public possessionChanged = () => {
