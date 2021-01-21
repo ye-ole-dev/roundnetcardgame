@@ -34,7 +34,7 @@
     "ngx-socket-io": "^3.0.1",
     "nodemon": "^2.0.2",
     "rxjs": "~6.5.4",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "tslib": "^1.10.0",
     "typescript": "~3.7.5",
     "zone.js": "~0.10.2"
